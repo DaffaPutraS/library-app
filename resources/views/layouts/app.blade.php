@@ -17,6 +17,14 @@
             <a class="nav-link text-white d-inline" href="{{ route('categories.index') }}">Categories</a>
             <a class="nav-link text-white d-inline" href="{{ route('loans.index') }}">Loans</a>
             <a class="nav-link text-white d-inline" href="{{ route('users.index') }}">Users</a>
+            @auth
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-link nav-link text-white" style="display:inline; cursor:pointer;">
+                    Logout
+                </button>
+            </form>
+            @endauth
         </div>
     </div>
 </nav>
