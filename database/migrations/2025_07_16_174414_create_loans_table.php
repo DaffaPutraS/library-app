@@ -9,10 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('book_id')->constrained('books');
+            $table->foreignId('librarian_id')->constrained('users');
+            $table->foreignId('member_id')->constrained('users');
+            $table->dateTime('loan_at');
+            $table->dateTime('returned_at')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

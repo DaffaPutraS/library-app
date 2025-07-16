@@ -9,14 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('book_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('book_id')->constrained('books');
+            $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
