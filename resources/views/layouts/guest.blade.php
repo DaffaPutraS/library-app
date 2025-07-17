@@ -1,30 +1,48 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
-
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
-            </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Library App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .login-image {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    @stack('styles')
+</head>
+<body>
+    <section class="d-flex align-items-center justify-content-center min-vh-100 bg-light" style="max-width:1200px; margin:auto;">
+        <div class="row w-100 bg-white rounded-lg overflow-hidden shadow-lg">
+            @if (Request::is('register'))
+                <!-- Left: Image & Info -->
+                <div class="d-none d-md-block col-md-6 p-0">
+                    <img src="{{ asset('images/img_register.jpg') }}" alt="Register Image" class="login-image">
+                </div>
+                <!-- Right: Register Form -->
+                <div class="col-12 col-md-6 p-5 d-flex flex-column justify-content-center">
+                    @yield('content')
+                </div>
+            @else
+                <!-- Left: Login Form -->
+                <div class="col-12 col-md-6 p-5 d-flex flex-column justify-content-center">
+                    @yield('content')
+                </div>
+                <!-- Right: Image & Info -->
+                <div class="d-none d-md-block col-md-6 p-0">
+                    <img src="{{ asset('images/img_login.jpg') }}" alt="Login Image" class="login-image">
+                </div>
+            @endif
         </div>
-    </body>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @stack('scripts')
+</body>
 </html>

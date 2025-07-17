@@ -17,26 +17,18 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Group route yang butuh autentikasi
 Route::middleware('auth')->group(function () {
-    // Profile routes
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Books routes - for all authenticated users
+    // Books routes - semua user yang login (admin, librarian, member)
     Route::resource('books', BookController::class);
 
-    // Categories and Loans routes - for librarians and admins only
+    // Categories & Loans - hanya librarian & admin
     Route::middleware('role:librarian,admin')->group(function () {
         Route::resource('categories', CategoryController::class);
         Route::resource('loans', LoanController::class);
     });
 
-    // Users routes - for admins only
+    // Users - hanya admin
     Route::middleware('role:admin')->group(function () {
         Route::resource('users', UserController::class);
     });
 });
-
-require __DIR__.'/auth.php';
