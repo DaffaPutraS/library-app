@@ -9,37 +9,48 @@
     @stack('styles')
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a class="navbar-brand" href="#">Library App</a>
-        <div>
-            @auth
-                <!-- Books - visible to all authenticated users -->
-                <a class="nav-link text-white d-inline" href="{{ route('books.index') }}">Books</a>
-                
-                <!-- Categories and Loans - only for librarians and admins -->
-                @if(Auth::user()->role == 'librarian' || Auth::user()->role == 'admin')
-                    <a class="nav-link text-white d-inline" href="{{ route('categories.index') }}">Categories</a>
-                    <a class="nav-link text-white d-inline" href="{{ route('loans.index') }}">Loans</a>
-                @endif
-                
-                <!-- Users - only for admins -->
-                @if(Auth::user()->role == 'admin')
-                    <a class="nav-link text-white d-inline" href="{{ route('users.index') }}">Users</a>
-                @endif
-                
-                <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-link nav-link text-white" style="display:inline; cursor:pointer;">
-                        Logout
-                    </button>
-                </form>
-            @else
-                <a class="nav-link text-white d-inline" href="{{ route('login') }}">Login</a>
-                <a class="nav-link text-white d-inline" href="{{ route('register') }}">Register</a>
-            @endauth
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+  <div class="container-fluid px-5 py-1">
+    <a class="navbar-brand" href="#">Library App</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        @auth
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('books.index') }}">Books</a>
+          </li>
+          @if(Auth::user()->role == 'librarian' || Auth::user()->role == 'admin')
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('categories.index') }}">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('loans.index') }}">Loans</a>
+            </li>
+          @endif
+          @if(Auth::user()->role == 'admin')
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('users.index') }}">Users</a>
+            </li>
+          @endif
+          <li class="nav-item">
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+              @csrf
+              <button type="submit" class="btn btn-danger ms-2">Logout</button>
+            </form>
+          </li>
+        @else
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('login') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('register') }}">Register</a>
+          </li>
+        @endauth
+      </ul>
     </div>
+  </div>
 </nav>
 <div class="container">
     @if(session('success'))
