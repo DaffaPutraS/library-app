@@ -13,17 +13,30 @@
     <div class="container">
         <a class="navbar-brand" href="#">Library App</a>
         <div>
-            <a class="nav-link text-white d-inline" href="{{ route('books.index') }}">Books</a>
-            <a class="nav-link text-white d-inline" href="{{ route('categories.index') }}">Categories</a>
-            <a class="nav-link text-white d-inline" href="{{ route('loans.index') }}">Loans</a>
-            <a class="nav-link text-white d-inline" href="{{ route('users.index') }}">Users</a>
             @auth
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-link nav-link text-white" style="display:inline; cursor:pointer;">
-                    Logout
-                </button>
-            </form>
+                <!-- Books - visible to all authenticated users -->
+                <a class="nav-link text-white d-inline" href="{{ route('books.index') }}">Books</a>
+                
+                <!-- Categories and Loans - only for librarians and admins -->
+                @if(Auth::user()->role == 'librarian' || Auth::user()->role == 'admin')
+                    <a class="nav-link text-white d-inline" href="{{ route('categories.index') }}">Categories</a>
+                    <a class="nav-link text-white d-inline" href="{{ route('loans.index') }}">Loans</a>
+                @endif
+                
+                <!-- Users - only for admins -->
+                @if(Auth::user()->role == 'admin')
+                    <a class="nav-link text-white d-inline" href="{{ route('users.index') }}">Users</a>
+                @endif
+                
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-link nav-link text-white" style="display:inline; cursor:pointer;">
+                        Logout
+                    </button>
+                </form>
+            @else
+                <a class="nav-link text-white d-inline" href="{{ route('login') }}">Login</a>
+                <a class="nav-link text-white d-inline" href="{{ route('register') }}">Register</a>
             @endauth
         </div>
     </div>
