@@ -12,9 +12,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Rute autentikasi
-require __DIR__.'/auth.php';
-
 // Rute yang membutuhkan autentikasi
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
@@ -25,3 +22,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('loans', LoanController::class);
     Route::resource('users', UserController::class);
 });
+
+// Rute autentikasi
+require __DIR__.'/auth.php';

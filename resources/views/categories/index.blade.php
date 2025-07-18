@@ -30,9 +30,7 @@
 @endsection
 @push('styles')
 <style>
-    #categories-table_wrapper .dataTables_filter {
         margin-bottom: 1rem;
-    }
 </style>
 @endpush
 @push('scripts')
@@ -40,7 +38,6 @@
 $(function() {
     $('#categories-table').DataTable();
     
-    // Ganti cara binding event click dengan event delegation
     $(document).on('click', '.btn-delete', function() {
         if(confirm('Delete this category?')) {
             let id = $(this).data('id');
@@ -50,7 +47,6 @@ $(function() {
                 data: {_token: '{{ csrf_token() }}'},
                 success: function() { 
                     $('#category-' + id).remove();
-                    // Refresh DataTable setelah delete
                     $('#categories-table').DataTable().ajax.reload(null, false);
                 }
             });

@@ -13,11 +13,8 @@ return Application::configure(
     health: '/up',
 )
 ->withMiddleware(function (Middleware $middleware) {
-    // Registrasi middleware di sini
     $middleware->alias([
-        // Tambahkan middleware lain jika perlu
     ]);
-    // Jika butuh group, gunakan $middleware->group('custom', [...]);
 })
 ->withExceptions(function (Exceptions $exceptions) {
     // konfigurasi exception

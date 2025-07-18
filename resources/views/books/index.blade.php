@@ -48,16 +48,12 @@
 @endsection
 @push('scripts')
 <style>
-    /* Bootstrap margin-bottom untuk search box DataTables */
-    #books-table_wrapper .dataTables_filter {
-        margin-bottom: 1rem; /* sama seperti mb-3 */
-    }
+        margin-bottom: 1rem;
 </style>
 <script>
 $(function() {
     var table = $('#books-table').DataTable();
     
-    // Event delegation for delete buttons
     $(document).on('click', '.btn-delete', function() {
         if(confirm('Delete this book?')) {
             let id = $(this).data('id');
@@ -67,9 +63,7 @@ $(function() {
                 data: {_token: '{{ csrf_token() }}'},
                 success: function() { 
                     $('#book-' + id).remove();
-                    // Refresh DataTable after delete
                     table.draw(false);
-                    // Alternative: $('#books-table').DataTable().ajax.reload(null, false);
                 }
             });
         }

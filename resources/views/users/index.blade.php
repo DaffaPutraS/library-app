@@ -38,9 +38,7 @@
 @endsection
 @push('styles')
 <style>
-    #users-table_wrapper .dataTables_filter {
         margin-bottom: 1rem;
-    }
 </style>
 @endpush
 @push('scripts')
@@ -48,7 +46,6 @@
 $(function() {
     var table = $('#users-table').DataTable();
     
-    // Event delegation for delete buttons
     $(document).on('click', '.btn-delete', function() {
         if(confirm('Delete this user?')) {
             let id = $(this).data('id');
@@ -58,9 +55,7 @@ $(function() {
                 data: {_token: '{{ csrf_token() }}'},
                 success: function() { 
                     $('#user-' + id).remove();
-                    // Refresh DataTable after delete
                     table.draw(false);
-                    // Alternative: $('#users-table').DataTable().ajax.reload(null, false);
                 }
             });
         }

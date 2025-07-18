@@ -115,10 +115,8 @@
         document.getElementById('live-clock').textContent = `${hours}:${minutes}:${seconds}`;
     }
     
-    // Update setiap detik
     setInterval(updateClock, 1000);
     
-    // Jalankan segera saat halaman dimuat
     updateClock();
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
