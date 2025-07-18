@@ -19,6 +19,9 @@
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         @auth
           <li class="nav-item">
+              <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
+            </li>
+          <li class="nav-item">
             <a class="nav-link" href="{{ route('books.index') }}">Books</a>
           </li>
           @if(Auth::user()->role == 'librarian' || Auth::user()->role == 'admin')
@@ -34,6 +37,9 @@
               <a class="nav-link" href="{{ route('users.index') }}">Users</a>
             </li>
           @endif
+          <li class="nav-item">
+            <span class="nav-link text-warning">{{ Auth::user()->role }}</span>
+          </li>
           <li class="nav-item">
             <form action="{{ route('logout') }}" method="POST" class="d-inline">
               @csrf

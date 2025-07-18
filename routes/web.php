@@ -1,34 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 
-// Landing page
+// Rute publik
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Dashboard, hanya untuk user yang sudah login dan terverifikasi
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Rute autentikasi
+require __DIR__.'/auth.php';
 
-Route::middleware('auth')->group(function () {
-    // Books routes - semua user yang login (admin, librarian, member)
+// Rute yang membutuhkan autentikasi
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    
+    // Resources lainnya
     Route::resource('books', BookController::class);
-
-    // Categories & Loans - hanya librarian & admin
-    Route::middleware('role:librarian,admin')->group(function () {
-        Route::resource('categories', CategoryController::class);
-        Route::resource('loans', LoanController::class);
-    });
-
-    // Users - hanya admin
-    Route::middleware('role:admin')->group(function () {
-        Route::resource('users', UserController::class);
-    });
+    Route::resource('categories', CategoryController::class);
+    Route::resource('loans', LoanController::class);
+    Route::resource('users', UserController::class);
 });

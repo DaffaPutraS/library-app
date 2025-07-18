@@ -4,11 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
+        // Hanya admin & librarian
+        if (Auth::user()->role === 'member') {
+            return redirect()->route('dashboard')
+                ->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
+        }
+        
         $categories = Category::all();
         return view('categories.index', compact('categories'));
     }

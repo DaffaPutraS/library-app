@@ -9,9 +9,22 @@ class RoleMiddleware
 {
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (!$request->user() || !in_array($request->user()->role, $roles)) {
-            abort(403);
+        // Jika user tidak login, redirect ke login
+        if (!$request->user()) {
+            return redirect()->route('login');
         }
-        return $next($request);
+        
+        // Jika tidak ada role yang diperlukan, izinkan
+        if (empty($roles)) {
+            return $next($request);
+        }
+        
+        // Jika role user cocok dengan yang diizinkan
+        if (in_array($request->user()->role, $roles)) {
+            return $next($request);
+        }
+        
+        // Jika tidak punya akses
+        return abort(403, 'Anda tidak memiliki akses ke halaman ini');
     }
 }

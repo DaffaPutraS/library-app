@@ -15,7 +15,6 @@ return Application::configure(
 ->withMiddleware(function (Middleware $middleware) {
     // Registrasi middleware di sini
     $middleware->alias([
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
         // Tambahkan middleware lain jika perlu
     ]);
     // Jika butuh group, gunakan $middleware->group('custom', [...]);
