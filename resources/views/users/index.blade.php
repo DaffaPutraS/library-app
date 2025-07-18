@@ -46,15 +46,22 @@
 @push('scripts')
 <script>
 $(function() {
-    $('#users-table').DataTable();
-    $('.btn-delete').click(function() {
+    var table = $('#users-table').DataTable();
+    
+    // Event delegation for delete buttons
+    $(document).on('click', '.btn-delete', function() {
         if(confirm('Delete this user?')) {
             let id = $(this).data('id');
             $.ajax({
                 url: '/users/' + id,
                 type: 'DELETE',
                 data: {_token: '{{ csrf_token() }}'},
-                success: function() { $('#user-' + id).remove(); }
+                success: function() { 
+                    $('#user-' + id).remove();
+                    // Refresh DataTable after delete
+                    table.draw(false);
+                    // Alternative: $('#users-table').DataTable().ajax.reload(null, false);
+                }
             });
         }
     });
