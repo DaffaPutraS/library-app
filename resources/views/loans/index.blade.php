@@ -48,15 +48,22 @@
 @push('scripts')
 <script>
 $(function() {
-    $('#loans-table').DataTable();
-    $('.btn-delete').click(function() {
-        if(confirm('Delete this loan?')) {
+    var table = $('#loans-table').DataTable();
+    
+    // Event delegation for delete buttons
+    $(document).on('click', '.btn-delete', function() {
+        if(confirm('Delete this loan record?')) {
             let id = $(this).data('id');
             $.ajax({
                 url: '/loans/' + id,
                 type: 'DELETE',
                 data: {_token: '{{ csrf_token() }}'},
-                success: function() { $('#loan-' + id).remove(); }
+                success: function() { 
+                    $('#loan-' + id).remove();
+                    // Refresh DataTable after delete
+                    table.draw(false);
+                    // Alternative: $('#loans-table').DataTable().ajax.reload(null, false);
+                }
             });
         }
     });

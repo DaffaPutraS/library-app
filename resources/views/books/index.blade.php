@@ -55,15 +55,22 @@
 </style>
 <script>
 $(function() {
-    $('#books-table').DataTable();
-    $('.btn-delete').click(function() {
+    var table = $('#books-table').DataTable();
+    
+    // Event delegation for delete buttons
+    $(document).on('click', '.btn-delete', function() {
         if(confirm('Delete this book?')) {
             let id = $(this).data('id');
             $.ajax({
                 url: '/books/' + id,
                 type: 'DELETE',
                 data: {_token: '{{ csrf_token() }}'},
-                success: function() { $('#book-' + id).remove(); }
+                success: function() { 
+                    $('#book-' + id).remove();
+                    // Refresh DataTable after delete
+                    table.draw(false);
+                    // Alternative: $('#books-table').DataTable().ajax.reload(null, false);
+                }
             });
         }
     });

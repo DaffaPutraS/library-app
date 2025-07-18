@@ -39,14 +39,20 @@
 <script>
 $(function() {
     $('#categories-table').DataTable();
-    $('.btn-delete').click(function() {
+    
+    // Ganti cara binding event click dengan event delegation
+    $(document).on('click', '.btn-delete', function() {
         if(confirm('Delete this category?')) {
             let id = $(this).data('id');
             $.ajax({
                 url: '/categories/' + id,
                 type: 'DELETE',
                 data: {_token: '{{ csrf_token() }}'},
-                success: function() { $('#category-' + id).remove(); }
+                success: function() { 
+                    $('#category-' + id).remove();
+                    // Refresh DataTable setelah delete
+                    $('#categories-table').DataTable().ajax.reload(null, false);
+                }
             });
         }
     });
