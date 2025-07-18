@@ -13,7 +13,7 @@
                         </div>
                         <div class="text-end">
                             <p class="mb-0">{{ now()->format('l, d F Y') }}</p>
-                            <p class="mb-0">{{ now()->format('H:i') }}</p>
+                            <p class="mb-0" id="live-clock"></p>
                         </div>
                     </div>
                 </div>
@@ -106,6 +106,21 @@
 </div>
 
 @push('styles')
+<script>
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('live-clock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    
+    // Update setiap detik
+    setInterval(updateClock, 1000);
+    
+    // Jalankan segera saat halaman dimuat
+    updateClock();
+</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 @endpush
 @endsection
